@@ -927,12 +927,13 @@ ORDER BY count(*) DESC;
 -- Answer:
 -- The ranking does change, highlighting post-9/11 speeches by George W. Bush.
 -- The change might be more or less pronounced given another set of texts.
+-- 注意：to_tsquery() 第1个参数要放 "english" config
 
 SELECT president,
        speech_date,
        ts_rank_cd(search_speech_text, search_query, 2) AS rank_score
 FROM president_speeches,
-     to_tsquery('war & security & threat & enemy') search_query
+     to_tsquery('english', 'war & security & threat & enemy') search_query
 WHERE search_speech_text @@ search_query
 ORDER BY rank_score DESC
 LIMIT 5;
